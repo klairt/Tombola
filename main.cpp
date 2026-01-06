@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include <unistd.h>
 using namespace std;
 
 int main()
@@ -36,48 +37,51 @@ int main()
 
     srand(time(NULL));
 
-    for(int p=0;p<giocatori;p++)
+    for(int p=0;p<giocatori;p++) //ciclo che genera una cartella per ogni giocatore
     {
 
         cout<<"Cartello giocatore "<<p+1<<": \n\n";
-       int colonne[9][3];
-       int usati[90];
+       int colonne[9][3]; //tabella della cartella
+       int usati[90]; //array d'appoggio
 
-       for(int j=0; j<3; j++)
+       //STRUTTURA CARTELLA
+       for(int j=0; j<3; j++) //ciclo che si ripete per il numero di righe
        {
 
-       for(int i=0; i<9; i++)
+       for(int i=0; i<9; i++) //ciclo che si ripete per il numero di colonne
         {
-           num=(rand()%9+1)+i*10;
+           num=(rand()%9+1)+i*10; //Genera un numero pseudocasuale da 1-9, aggiungendoli poi i moltiplicato per 10 (0,10,20,30...) cosicché siano in fila
 
-               while(usati[num]==1)
+               while(usati[num-1]==1) //Se l'array usati nella posizione della variabile num è stata già riempita con 1, vuol dire che è già stata usata. Dunque, entra nel ciclo finché non genera un numero nuovo
                {
                    num=(rand()%9+1)+i*10;
                }
-               colonne[i][j]=num;
-               usati[num]=1;
+               colonne[i][j]=num; //la tabella colonne sarà riempita con la variabile num sulla riga i nella colonna j
+               usati[num-1]=1; //Array usati sarà riempito con 1 nella posizione num-1. Simile al concetto di mettere 'True' un booleano 'False'
 
         }
        }
-
-    for(int j=0; j<3; j++)
+    //STAMPA CARTELLA
+    for(int j=0; j<3; j++) //ciclo che si ripete per il numero di righe
     {
-            int x;
-            int usato[9]={0,0,0,0,0,0,0,0,0};
-            for(int k=0; k<5; k++)
+            //SCELTA DEI NUMERI DA PRENDERE (5 PER OGNI RIGA)
+            int x; //variabile d'appoggio
+            int stampa[9]={0,0,0,0,0,0,0,0,0}; //array d'appoggio
+            for(int k=0; k<5; k++) //ciclo che riempie variabile stampa
             {
-                x=rand()%9;
-                while(usato[x]==1)
+                x=rand()%9; //variabile genera una posizione casuale da 0-8
+                while(stampa[x]==1) //Stesso ragionamento di prima. Se array stampa alla posizione x è stato impostato a 1, vuol dire che è già stato utilizzato e non uscirà dal ciclo fino a quando non genera una posizione nuova
                 {
                     x=rand()%9;
                 }
-                usato[x]=1;
+                stampa[x]=1;//Si imposta stampa[x] a 1, per dire che è già stato usato
             }
+            //STAMPA DEI NUMERI PRESI
             for(int i=0; i<9; i++)
             {
-                if(usato[i]==1)
-                {
-                    if(i<1)
+                if(stampa[i]==1)
+                {   //se array stampa nella posizione i è stato impostato ad 1, vuol dire che è stato scelto quel numero, e dunque si stampa quello
+                    if(i==0) //per avere una cartella incolonnata bene, se si tratta del primo numero della colonna (da 1-9), si lascia solo uno spazio dopo averlo inserito, altrimenti due (perché tutti gli altri numeri hanno sia decine che unità)
                     {
                         cout<<colonne[i][j]<<" ";
                     }else
@@ -87,7 +91,7 @@ int main()
 
                 }else
                 {
-                    if(i>=1)
+                    if(i>0)//per avere una cartella incolonnata bene, se si tratta del primo numero della colonna (da 1-9), si lascia solo due spazi, altrimenti quattro
                     {
                         cout<<"    ";
                     }else
@@ -97,7 +101,7 @@ int main()
                 }
             }
 
-        cout<<endl;
+        cout<<endl; //dopo ogni riga, si genera una linea che li separa l'uno dall'altro
             for(int j=0;j<34;j++)
             {
                 cout<<"-";
@@ -114,21 +118,22 @@ int main()
 
     //GENERA TABELLA
 
-    cout<<"Tabellone tombola:\n";
-   int tabella[90];
+    cout<<"Tabellone tombola:\n\n";
+   int tabella[90]; //array tabella di 90 celle
 
    for(int i=1;i<=90;i++)
    {
-       tabella[i-1]=i;
+       tabella[i-1]=i; //ogni cella dell'array sarà riempita in modo crescente da 1 a 90
        if(i<=10&&i>=1)
        {
+           //se i numeri sono compresi fra 1-10, si lasciano 2 spazi per incolonnarli bene, altrimenti solo un spazio
            cout<<i<<"  ";
        }else
        {
            cout<<i<<" ";
        }
 
-       if(i%10==0)
+       if(i%10==0) //ad ogni 10 numeri, si va a capo
        {   cout<<endl;
            for(int j=0;j<30;j++)
            {
@@ -138,6 +143,21 @@ int main()
        }
    }
 
+   cout<<endl<<endl;
+
+   //ESTRAZIONE NUMERI
+   int utilizzato[90];
+   for(int i=0;i<90;i++)
+   {
+       int estratto=rand()%90+1;
+       while(utilizzato[estratto]==1) //con questo ciclo, verrano sempre estratti numeri diversi
+       {
+           estratto=rand()%90+1;
+       }
+       utilizzato[estratto]=1;
+       cout<<"Il numero estratto è "<<estratto<<" !\n";
+       sleep(2); //i numeri vengono generati a intervalli regolari, come richiesto
+   }
 
           return 0;
 
