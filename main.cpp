@@ -14,10 +14,44 @@ int main()
     4. controllare e mostrare la presenza dei numeri estratti nelle cartelle
     5. segnalare il vincitore che ha fatto "tombola" (estratti tutti i numeri della propria cartella)*/
 
-    cout<<"Benvenuti a tombola!\n";
+    cout<<"Benvenuti a tombola!\n\n\n";
+    
+    sleep(2);
 
     //dichiarazione
     int giocatori,num;
+    
+	//GENERA TABELLA
+
+   cout<<"Tabellone tombola:\n\n";
+   int tabella[90]; //array tabella di 90 celle
+
+   for(int i=1;i<=90;i++)
+   {
+       tabella[i-1]=i; //ogni cella dell'array sarà riempita in modo crescente da 1 a 90
+       if(i<=10&&i>=1)
+       {
+           //se i numeri sono compresi fra 1-10, si lasciano 2 spazi per incolonnarli bene, altrimenti solo un spazio
+           cout<<i<<"  ";
+       }else
+       {
+           cout<<i<<" ";
+       }
+
+       if(i%10==0) //ad ogni 10 numeri, si va a capo
+       {   cout<<endl;
+           for(int j=0;j<30;j++)
+           {
+               cout<<"-";
+           }
+           cout<<endl;
+       }
+   }
+
+   cout<<endl<<endl;
+   
+  	
+   sleep(2);
 
     /*STEP 1: generare le cartelle per almeno 2 giocatori
      - Chiedere il numero di cartelle da generare
@@ -40,7 +74,7 @@ int main()
     for(int p=0;p<giocatori;p++) //ciclo che genera una cartella per ogni giocatore
     {
 
-        cout<<"Cartello giocatore "<<p+1<<": \n\n";
+        cout<<"Cartella giocatore "<<p+1<<": \n\n";
        int colonne[9][3]; //tabella della cartella
        int usati[90]; //array d'appoggio
 
@@ -109,7 +143,10 @@ int main()
         cout<<endl;
     }
 
-
+	for(int l=0;l<90;l++) //RESET USATI
+	{
+		usati[l]=0;
+	}
     cout<<"\n\n\n\n";
     }
 
@@ -118,7 +155,7 @@ int main()
 
     //GENERA TABELLA
 
-    cout<<"Tabellone tombola:\n\n";
+   /*cout<<"Tabellone tombola:\n\n";
    int tabella[90]; //array tabella di 90 celle
 
    for(int i=1;i<=90;i++)
@@ -144,20 +181,72 @@ int main()
    }
 
    cout<<endl<<endl;
+   
+  	
+   sleep(2);*/
 
    //ESTRAZIONE NUMERI
-   int utilizzato[90];
+   int utilizzato[90]={0};
    for(int i=0;i<90;i++)
-   {
+   {	
+       
        int estratto=rand()%90+1;
        while(utilizzato[estratto]==1) //con questo ciclo, verrano sempre estratti numeri diversi
        {
            estratto=rand()%90+1;
        }
        utilizzato[estratto]=1;
-       cout<<"Il numero estratto è "<<estratto<<" !\n";
+       cout<<"Il numero estratto è "<<estratto<<" !\n\n\n";
+
+       cout << "Tabellone tombola:\n\n";
+       for (int k=1; k<=90; k++) {
+           if (utilizzato[k]==1) //se il numero è già stato estratto, si colore di lilla
+           {
+               
+               cout<<"\33[38;5;111m"; // inizia colore lilla
+               if (k<=10)
+               {
+                   cout<<k<<"  ";
+               } else
+               {
+                   cout<<k<<" ";
+               }
+               cout<<"\33[0m"; // reset colore
+
+           } else {
+               if (k<=10)
+               {
+                   cout<<k<<"  ";
+               } else
+               {
+                   cout<<k<<" ";
+               }
+           }
+
+           if (k % 10 == 0)
+           {
+               cout<<endl;
+               for (int j = 0; j < 30; j++)
+               {
+                   cout<<"-";
+               }
+               cout<<endl;
+           }
+       }
+      
+       cout<<endl<<endl;
+
+ 
+	
        sleep(2); //i numeri vengono generati a intervalli regolari, come richiesto
+    
+       cout<<"\e[25A";
+       cout<<"\e[0K";
+      
+      
    }
+
+
 
           return 0;
 
