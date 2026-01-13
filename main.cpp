@@ -14,9 +14,13 @@ int main()
     3. mostrare il tabellone aggiornato.
     4. controllare e mostrare la presenza dei numeri estratti nelle cartelle.
     5. segnalare il vincitore che ha fatto "tombola" (estratti tutti i numeri della propria cartella)*/
-
+	
+	 cout<<"\33[1m";
+	cout<<"\33[38;5;217m";
     cout<<"Benvenuti a tombola!\n\n\n";
-
+	 cout<<"\33[0m";
+	  cout<<"\33[22m";
+	
     int giocatori,num;
 
     do{
@@ -25,8 +29,8 @@ int main()
     }while(giocatori<2||giocatori>10); //ciclo che permette di avere almeno 2 giocatori e non più di 10
 
     cout<<"\nOttimo! Ci sono "<<giocatori<<" giocatori.\n\n";
-
-    // Chiedere i nomi ai giocatori
+	
+	sleep(2);
     string nomi[10];
     for(int p=0; p<giocatori; p++)
     {
@@ -239,8 +243,10 @@ int main()
     }
 
     sleep(5);
-    cout<<"\e[H"; //muove il cursore nella posizione 0,0
-    cout<<"\e[2J"; //cancella tutto lo schermo per poi fare l'estrazione
+    
+    
+	cout<<"\33[H"; //muove il cursore nella posizione 0,0
+	cout<<"\33[J"; //cancella tutto lo schermo per poi fare l'estrazione
 
     // ESTRAZIONE NUMERI
     int utilizzato[90];
@@ -414,25 +420,30 @@ int main()
 
         if(vincitore == 0) // se non c'è vincitore, continua con l'estrazione
         {
-           sleep(5);
-            cout<<"\e[H"; //muove il cursore nella posizione 0,0
-            cout<<"\e[2J"; //cancella tutto lo schermo
+            //sleep(2);
+            
+            cout<<"\e[J"; //cancella tutto lo schermo
+			cout<<"\e[H"; //muove il cursore nella posizione 0,0
         }
     }
+    
+    sleep(2);
 
-    // MESSAGGIO DI VITTORIA
-    if(vincitore != 0)
-    {
-        sleep(2);
-        cout<<"\e[H"; //muove il cursore nella posizione 0,0
-        cout<<"\e[2J"; //cancella tutto lo schermo
+    //if(vincitore != 0)
+    //{
+       
+        
+        cout<<"\33[J"; //cancella tutto lo schermo
+        cout<<"\33[H"; //muove il cursore nella posizione 0,0
 
         // Stampa il messaggio centrato
-        //cout<<"\e[40;10H";
-        cout<<"          *** TOMBOLA! ***\n\n";
-        //cout<<"\e[40;40H";
-        cout<<"     Congratulazioni "<<nomi[vincitore]<<", hai vinto! :)\n\n";
-    }
+       
+        cout<<"*** TOMBOLA! ***\n\n";
+       
+        cout<<"Congratulazioni "<<nomi[vincitore]<<", hai vinto! :)\n\n";
+    //}
+    
+    
 
     return 0;
 }
